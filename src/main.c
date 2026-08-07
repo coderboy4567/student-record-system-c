@@ -1,9 +1,15 @@
 #include <stdio.h>
+#include "../include/student.h"
 
 void displayMenu(void);
 
 int main(void) {
     int choice;
+
+    // Test: ek sample student struct bana rahe hain check karne ke liye
+    struct Student testStudent = {1, "Adnan", 85.5};
+    printf("Test Student -> Roll: %d, Name: %s, Marks: %.2f\n\n",
+           testStudent.rollNumber, testStudent.name, testStudent.marks);
 
     do {
         displayMenu();
