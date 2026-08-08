@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include "../include/student.h"
 
+#define MAX_STUDENTS 100
+
 void displayMenu(void);
+void addStudent(struct Student students[], int *count);
 
 int main(void) {
     int choice;
-
-    // Test: ek sample student struct bana rahe hain check karne ke liye
-    struct Student testStudent = {1, "Adnan", 85.5};
-    printf("Test Student -> Roll: %d, Name: %s, Marks: %.2f\n\n",
-           testStudent.rollNumber, testStudent.name, testStudent.marks);
+    struct Student students[MAX_STUDENTS];
+    int studentCount = 0;
 
     do {
         displayMenu();
@@ -18,7 +18,7 @@ int main(void) {
 
         switch (choice) {
             case 1:
-                printf("Add Student - coming soon\n");
+                addStudent(students, &studentCount);
                 break;
             case 6:
                 printf("Exiting... Goodbye!\n");
@@ -39,4 +39,27 @@ void displayMenu(void) {
     printf("4. Update Student\n");
     printf("5. Delete Student\n");
     printf("6. Exit\n");
+}
+
+void addStudent(struct Student students[], int *count) {
+    if (*count >= MAX_STUDENTS) {
+        printf("Cannot add more students. Limit reached!\n");
+        return;
+    }
+
+    struct Student newStudent;
+
+    printf("Enter Roll Number: ");
+    scanf("%d", &newStudent.rollNumber);
+
+    printf("Enter Name: ");
+    scanf(" %[^\n]", newStudent.name);
+
+    printf("Enter Marks: ");
+    scanf("%f", &newStudent.marks);
+
+    students[*count] = newStudent;
+    (*count)++;
+
+    printf("Student added successfully!\n");
 }
