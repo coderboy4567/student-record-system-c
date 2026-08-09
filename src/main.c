@@ -5,6 +5,9 @@
 
 void displayMenu(void);
 void addStudent(struct Student students[], int *count);
+void viewStudents(struct Student students[], int count);
+int searchStudent(struct Student students[], int count, int rollNumber);
+void updateStudent(struct Student students[], int count);
 
 int main(void) {
     int choice;
@@ -19,6 +22,27 @@ int main(void) {
         switch (choice) {
             case 1:
                 addStudent(students, &studentCount);
+                break;
+            case 2:
+                viewStudents(students, studentCount);
+                break;
+            case 3: {
+                int roll;
+                printf("Enter Roll Number to search: ");
+                scanf("%d", &roll);
+                int index = searchStudent(students, studentCount, roll);
+                if (index == -1) {
+                    printf("Student not found!\n");
+                } else {
+                    printf("Found -> Roll: %d, Name: %s, Marks: %.2f\n",
+                           students[index].rollNumber,
+                           students[index].name,
+                           students[index].marks);
+                }
+                break;
+            }
+            case 4:
+                updateStudent(students, studentCount);
                 break;
             case 6:
                 printf("Exiting... Goodbye!\n");
@@ -62,4 +86,51 @@ void addStudent(struct Student students[], int *count) {
     (*count)++;
 
     printf("Student added successfully!\n");
+}
+
+void viewStudents(struct Student students[], int count) {
+    if (count == 0) {
+        printf("No students added yet.\n");
+        return;
+    }
+
+    printf("\n%-5s %-20s %-10s\n", "Roll", "Name", "Marks");
+    printf("--------------------------------\n");
+
+    for (int i = 0; i < count; i++) {
+        printf("%-5d %-20s %-10.2f\n",
+               students[i].rollNumber,
+               students[i].name,
+               students[i].marks);
+    }
+}
+
+int searchStudent(struct Student students[], int count, int rollNumber) {
+    for (int i = 0; i < count; i++) {
+        if (students[i].rollNumber == rollNumber) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void updateStudent(struct Student students[], int count) {
+    int roll;
+    printf("Enter Roll Number to update: ");
+    scanf("%d", &roll);
+
+    int index = searchStudent(students, count, roll);
+
+    if (index == -1) {
+        printf("Student not found!\n");
+        return;
+    }
+
+    printf("Enter new Name: ");
+    scanf(" %[^\n]", students[index].name);
+
+    printf("Enter new Marks: ");
+    scanf("%f", &students[index].marks);
+
+    printf("Student updated successfully!\n");
 }
