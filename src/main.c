@@ -8,6 +8,7 @@ void addStudent(struct Student students[], int *count);
 void viewStudents(struct Student students[], int count);
 int searchStudent(struct Student students[], int count, int rollNumber);
 void updateStudent(struct Student students[], int count);
+void deleteStudent(struct Student students[], int *count);
 
 int main(void) {
     int choice;
@@ -43,6 +44,9 @@ int main(void) {
             }
             case 4:
                 updateStudent(students, studentCount);
+                break;
+            case 5:
+                deleteStudent(students, &studentCount);
                 break;
             case 6:
                 printf("Exiting... Goodbye!\n");
@@ -133,4 +137,25 @@ void updateStudent(struct Student students[], int count) {
     scanf("%f", &students[index].marks);
 
     printf("Student updated successfully!\n");
+}
+
+void deleteStudent(struct Student students[], int *count) {
+    int roll;
+    printf("Enter Roll Number to delete: ");
+    scanf("%d", &roll);
+
+    int index = searchStudent(students, *count, roll);
+
+    if (index == -1) {
+        printf("Student not found!\n");
+        return;
+    }
+
+    for (int i = index; i < *count - 1; i++) {
+        students[i] = students[i + 1];
+    }
+
+    (*count)--;
+
+    printf("Student deleted successfully!\n");
 }
