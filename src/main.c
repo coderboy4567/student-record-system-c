@@ -2,6 +2,7 @@
 #include "../include/student.h"
 
 #define MAX_STUDENTS 100
+#define FILE_PATH "../data/students.txt"
 
 void displayMenu(void);
 void addStudent(struct Student students[], int *count);
@@ -9,11 +10,17 @@ void viewStudents(struct Student students[], int count);
 int searchStudent(struct Student students[], int count, int rollNumber);
 void updateStudent(struct Student students[], int count);
 void deleteStudent(struct Student students[], int *count);
+void saveToFile(struct Student students[], int count);
+int loadFromFile(struct Student students[]);
 
 int main(void) {
     int choice;
     struct Student students[MAX_STUDENTS];
     int studentCount = 0;
+
+    // Program start hote hi purana data load karo
+    studentCount = loadFromFile(students);
+    printf("Loaded %d student(s) from file.\n", studentCount);
 
     do {
         displayMenu();
@@ -49,7 +56,8 @@ int main(void) {
                 deleteStudent(students, &studentCount);
                 break;
             case 6:
-                printf("Exiting... Goodbye!\n");
+                saveToFile(students, studentCount);
+                printf("Data saved. Exiting... Goodbye!\n");
                 break;
             default:
                 printf("Invalid choice, try again.\n");
@@ -158,4 +166,42 @@ void deleteStudent(struct Student students[], int *count) {
     (*count)--;
 
     printf("Student deleted successfully!\n");
+}
+
+void saveToFile(struct Student students[], int count) {
+    FILE *file = fopen(FILE_PATH, "w");
+
+    if (file == NULL) {
+        printf("Error: Could not open file to save data!\n");
+        return;
+    }
+
+    for (int i = 0; i < count; i++) {
+        fprintf(file, "%d|%s|%.2f\n",
+                students[i].rollNumber,
+                students[i].name,
+                students[i].marks);
+    }
+
+    fclose(file);
+}
+
+int loadFromFile(struct Student students[]) {
+    FILE *file = fopen(FILE_PATH, "r");
+
+    if (file == NULL) {
+        // Pehli baar chal raha hai, file abhi exist nahi karti - normal hai
+        return 0;
+    }
+
+    int count = 0;
+    while (fscanf(file, "%d|%49[^|]|%f\n",
+                   &students[count].rollNumber,
+                   students[count].name,
+                   &students[count].marks) == 3) {
+        count++;
+    }
+
+    fclose(file);
+    return count;
 }
