@@ -12,13 +12,14 @@ void updateStudent(struct Student students[], int count);
 void deleteStudent(struct Student students[], int *count);
 void saveToFile(struct Student students[], int count);
 int loadFromFile(struct Student students[]);
+void sortStudents(struct Student students[], int count);
+void showStatistics(struct Student students[], int count);
 
 int main(void) {
     int choice;
     struct Student students[MAX_STUDENTS];
     int studentCount = 0;
 
-    // Program start hote hi purana data load karo
     studentCount = loadFromFile(students);
     printf("Loaded %d student(s) from file.\n", studentCount);
 
@@ -55,6 +56,13 @@ int main(void) {
             case 5:
                 deleteStudent(students, &studentCount);
                 break;
+            case 7:
+                sortStudents(students, studentCount);
+                printf("Students sorted by marks (descending).\n");
+                break;
+            case 8:
+                showStatistics(students, studentCount);
+                break;
             case 6:
                 saveToFile(students, studentCount);
                 printf("Data saved. Exiting... Goodbye!\n");
@@ -75,6 +83,8 @@ void displayMenu(void) {
     printf("4. Update Student\n");
     printf("5. Delete Student\n");
     printf("6. Exit\n");
+    printf("7. Sort Students (by Marks)\n");
+    printf("8. Show Statistics\n");
 }
 
 void addStudent(struct Student students[], int *count) {
@@ -190,7 +200,6 @@ int loadFromFile(struct Student students[]) {
     FILE *file = fopen(FILE_PATH, "r");
 
     if (file == NULL) {
-        // Pehli baar chal raha hai, file abhi exist nahi karti - normal hai
         return 0;
     }
 
@@ -204,4 +213,47 @@ int loadFromFile(struct Student students[]) {
 
     fclose(file);
     return count;
+}
+
+void sortStudents(struct Student students[], int count) {
+    // Bubble Sort - marks ke hisaab se descending order (highest pehle)
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - 1 - i; j++) {
+            if (students[j].marks < students[j + 1].marks) {
+                struct Student temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void showStatistics(struct Student students[], int count) {
+    if (count == 0) {
+        printf("No students to show statistics for.\n");
+        return;
+    }
+
+    float total = 0;
+    float highest = students[0].marks;
+    float lowest = students[0].marks;
+
+    for (int i = 0; i < count; i++) {
+        total += students[i].marks;
+
+        if (students[i].marks > highest) {
+            highest = students[i].marks;
+        }
+        if (students[i].marks < lowest) {
+            lowest = students[i].marks;
+        }
+    }
+
+    float average = total / count;
+
+    printf("\n----- STATISTICS -----\n");
+    printf("Total Students : %d\n", count);
+    printf("Average Marks  : %.2f\n", average);
+    printf("Highest Marks  : %.2f\n", highest);
+    printf("Lowest Marks   : %.2f\n", lowest);
 }
