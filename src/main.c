@@ -14,6 +14,9 @@ void saveToFile(struct Student students[], int count);
 int loadFromFile(struct Student students[]);
 void sortStudents(struct Student students[], int count);
 void showStatistics(struct Student students[], int count);
+void clearInputBuffer(void);
+int getValidInt(const char *prompt);
+float getValidFloat(const char *prompt);
 
 int main(void) {
     int choice;
@@ -25,8 +28,7 @@ int main(void) {
 
     do {
         displayMenu();
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+        choice = getValidInt("Enter your choice: ");
 
         switch (choice) {
             case 1:
@@ -36,9 +38,7 @@ int main(void) {
                 viewStudents(students, studentCount);
                 break;
             case 3: {
-                int roll;
-                printf("Enter Roll Number to search: ");
-                scanf("%d", &roll);
+                int roll = getValidInt("Enter Roll Number to search: ");
                 int index = searchStudent(students, studentCount, roll);
                 if (index == -1) {
                     printf("Student not found!\n");
@@ -87,6 +87,38 @@ void displayMenu(void) {
     printf("8. Show Statistics\n");
 }
 
+// Galat input (jaise letter) aane par buffer se garbage saaf karta hai
+void clearInputBuffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// Integer input safely leta hai, galat type diya to dubara poochta hai
+int getValidInt(const char *prompt) {
+    int value;
+    printf("%s", prompt);
+
+    while (scanf("%d", &value) != 1) {
+        printf("Invalid input! Please enter a number: ");
+        clearInputBuffer();
+    }
+    clearInputBuffer();
+    return value;
+}
+
+// Float input safely leta hai (marks ke liye)
+float getValidFloat(const char *prompt) {
+    float value;
+    printf("%s", prompt);
+
+    while (scanf("%f", &value) != 1) {
+        printf("Invalid input! Please enter a number: ");
+        clearInputBuffer();
+    }
+    clearInputBuffer();
+    return value;
+}
+
 void addStudent(struct Student students[], int *count) {
     if (*count >= MAX_STUDENTS) {
         printf("Cannot add more students. Limit reached!\n");
@@ -95,14 +127,18 @@ void addStudent(struct Student students[], int *count) {
 
     struct Student newStudent;
 
-    printf("Enter Roll Number: ");
-    scanf("%d", &newStudent.rollNumber);
+    newStudent.rollNumber = getValidInt("Enter Roll Number: ");
+
+    // Duplicate roll number check
+    if (searchStudent(students, *count, newStudent.rollNumber) != -1) {
+        printf("Error: Roll Number already exists!\n");
+        return;
+    }
 
     printf("Enter Name: ");
     scanf(" %[^\n]", newStudent.name);
 
-    printf("Enter Marks: ");
-    scanf("%f", &newStudent.marks);
+    newStudent.marks = getValidFloat("Enter Marks: ");
 
     students[*count] = newStudent;
     (*count)++;
@@ -137,9 +173,7 @@ int searchStudent(struct Student students[], int count, int rollNumber) {
 }
 
 void updateStudent(struct Student students[], int count) {
-    int roll;
-    printf("Enter Roll Number to update: ");
-    scanf("%d", &roll);
+    int roll = getValidInt("Enter Roll Number to update: ");
 
     int index = searchStudent(students, count, roll);
 
@@ -151,16 +185,13 @@ void updateStudent(struct Student students[], int count) {
     printf("Enter new Name: ");
     scanf(" %[^\n]", students[index].name);
 
-    printf("Enter new Marks: ");
-    scanf("%f", &students[index].marks);
+    students[index].marks = getValidFloat("Enter new Marks: ");
 
     printf("Student updated successfully!\n");
 }
 
 void deleteStudent(struct Student students[], int *count) {
-    int roll;
-    printf("Enter Roll Number to delete: ");
-    scanf("%d", &roll);
+    int roll = getValidInt("Enter Roll Number to delete: ");
 
     int index = searchStudent(students, *count, roll);
 
@@ -216,7 +247,6 @@ int loadFromFile(struct Student students[]) {
 }
 
 void sortStudents(struct Student students[], int count) {
-    // Bubble Sort - marks ke hisaab se descending order (highest pehle)
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
             if (students[j].marks < students[j + 1].marks) {
