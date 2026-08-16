@@ -1,1 +1,5 @@
-1|Md Adnan Sami|86.50
+1|Md Adnan Sami|85.60
+2|kasid irfan|74.26
+3|ahmad ali|56.23
+4|ragib hussain|45.87
+5|aasif hussain|89.60
