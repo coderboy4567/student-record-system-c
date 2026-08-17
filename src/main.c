@@ -46,12 +46,28 @@ int main(void) {
             case 8:
                 showStatistics(students, studentCount);
                 break;
+            case 9: {
+                char name[50];
+                printf("Enter Name to search: ");
+                scanf(" %[^\n]", name);
+                int index = searchStudentByName(students, studentCount, name);
+                if (index == -1) {
+                printf("Student not found!\n");
+             } else {
+                printf("Found -> Roll: %d, Name: %s, Marks: %.2f\n",
+                students[index].rollNumber,
+                students[index].name,
+                students[index].marks);
+             }
+                break;
+}
             case 6:
                 saveToFile(students, studentCount);
                 printf("Data saved. Exiting... Goodbye!\n");
                 break;
             default:
                 printf("Invalid choice, try again.\n");
+                
         }
     } while (choice != 6);
 
@@ -68,4 +84,5 @@ void displayMenu(void) {
     printf("6. Exit\n");
     printf("7. Sort Students (by Marks)\n");
     printf("8. Show Statistics\n");
+    printf("9. Search Student by Name\n");
 }

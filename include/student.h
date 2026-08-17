@@ -17,6 +17,7 @@ void displayMenu(void);
 void addStudent(struct Student students[], int *count);
 void viewStudents(struct Student students[], int count);
 int searchStudent(struct Student students[], int count, int rollNumber);
+int searchStudentByName(struct Student students[], int count, const char *name);
 void updateStudent(struct Student students[], int count);
 void deleteStudent(struct Student students[], int *count);
 

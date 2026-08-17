@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "../include/student.h"
 
 void addStudent(struct Student students[], int *count) {
@@ -88,4 +89,13 @@ void deleteStudent(struct Student students[], int *count) {
     (*count)--;
 
     printf("Student deleted successfully!\n");
+}
+
+int searchStudentByName(struct Student students[], int count, const char *name) {
+    for (int i = 0; i < count; i++) {
+        if (strcmp(students[i].name, name) == 0) {
+            return i;
+        }
+    }
+    return -1;
 }
