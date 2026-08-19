@@ -28,6 +28,7 @@ int loadFromFile(struct Student students[]);
 // Utilities
 void sortStudents(struct Student students[], int count);
 void showStatistics(struct Student students[], int count);
+char getGrade(float marks);
 void clearInputBuffer(void);
 int getValidInt(const char *prompt);
 float getValidFloat(const char *prompt);

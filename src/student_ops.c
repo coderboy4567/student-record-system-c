@@ -34,14 +34,16 @@ void viewStudents(struct Student students[], int count) {
         return;
     }
 
-    printf("\n%-5s %-20s %-10s\n", "Roll", "Name", "Marks");
-    printf("--------------------------------\n");
+    printf("\n%-5s %-20s %-10s %-5s\n", "Roll", "Name", "Marks", "Grade");
+    printf("------------------------------------------\n");
 
     for (int i = 0; i < count; i++) {
-        printf("%-5d %-20s %-10.2f\n",
+        char grade = getGrade(students[i].marks);
+        printf("%-5d %-20s %-10.2f %-5c\n",
                students[i].rollNumber,
                students[i].name,
-               students[i].marks);
+               students[i].marks,
+               grade);
     }
 }
 
