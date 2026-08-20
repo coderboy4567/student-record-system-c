@@ -27,6 +27,8 @@ int loadFromFile(struct Student students[]);
 
 // Utilities
 void sortStudents(struct Student students[], int count);
+void sortByName(struct Student students[], int count);
+void sortByRoll(struct Student students[], int count);
 void showStatistics(struct Student students[], int count);
 char getGrade(float marks);
 void clearInputBuffer(void);

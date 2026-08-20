@@ -39,10 +39,23 @@ int main(void) {
             case 5:
                 deleteStudent(students, &studentCount);
                 break;
-            case 7:
+            case 7: {
+                printf("Sort by: 1. Marks  2. Name  3. Roll Number\n");
+                int sortChoice = getValidInt("Enter choice: ");
+                if (sortChoice == 1) {
                 sortStudents(students, studentCount);
-                printf("Students sorted by marks (descending).\n");
+                printf("Sorted by marks (descending).\n");
+                } else if (sortChoice == 2) {
+                sortByName(students, studentCount);
+                printf("Sorted by name (A-Z).\n");
+                } else if (sortChoice == 3) {
+                sortByRoll(students, studentCount);
+                printf("Sorted by roll number (ascending).\n");
+                } else {
+                printf("Invalid sort choice!\n");
+                }
                 break;
+            }
             case 8:
                 showStatistics(students, studentCount);
                 break;
@@ -60,7 +73,7 @@ int main(void) {
                 students[index].marks);
              }
                 break;
-}
+            }
             case 6:
                 saveToFile(students, studentCount);
                 printf("Data saved. Exiting... Goodbye!\n");
@@ -82,7 +95,7 @@ void displayMenu(void) {
     printf("4. Update Student\n");
     printf("5. Delete Student\n");
     printf("6. Exit\n");
-    printf("7. Sort Students (by Marks)\n");
+   printf("7. Sort Students\n");
     printf("8. Show Statistics\n");
     printf("9. Search Student by Name\n");
 }

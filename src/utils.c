@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "../include/student.h"
 
 void sortStudents(struct Student students[], int count) {
@@ -83,5 +84,29 @@ char getGrade(float marks) {
         return 'D';
     } else {
         return 'F';
+    }
+}
+
+void sortByName(struct Student students[], int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - 1 - i; j++) {
+            if (strcmp(students[j].name, students[j + 1].name) > 0) {
+                struct Student temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void sortByRoll(struct Student students[], int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - 1 - i; j++) {
+            if (students[j].rollNumber > students[j + 1].rollNumber) {
+                struct Student temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
     }
 }
