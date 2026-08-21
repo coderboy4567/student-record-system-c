@@ -17,6 +17,23 @@ void saveToFile(struct Student students[], int count) {
     }
 
     fclose(file);
+
+    // Backup copy bhi bana rahe hain
+    FILE *backup = fopen(BACKUP_PATH, "w");
+
+    if (backup == NULL) {
+        printf("Warning: Backup file could not be created.\n");
+        return;
+    }
+
+    for (int i = 0; i < count; i++) {
+        fprintf(backup, "%d|%s|%.2f\n",
+                students[i].rollNumber,
+                students[i].name,
+                students[i].marks);
+    }
+
+    fclose(backup);
 }
 
 int loadFromFile(struct Student students[]) {

@@ -3,6 +3,7 @@
 
 #define MAX_STUDENTS 100
 #define FILE_PATH "../data/students.txt"
+#define BACKUP_PATH "../data/backup.txt"
 
 struct Student {
     int rollNumber;
