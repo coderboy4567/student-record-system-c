@@ -13,6 +13,8 @@ struct Student {
 
 // Menu
 void displayMenu(void);
+void clearScreen(void);
+void pauseScreen(void);
 
 // Student operations
 void addStudent(struct Student students[], int *count);

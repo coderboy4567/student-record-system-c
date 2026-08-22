@@ -9,10 +9,11 @@ int main(void) {
     studentCount = loadFromFile(students);
     printf("Loaded %d student(s) from file.\n", studentCount);
 
-    do {
+   do {
+        clearScreen();
         displayMenu();
         choice = getValidInt("Enter your choice: ");
-
+        
         switch (choice) {
             case 1:
                 addStudent(students, &studentCount);
@@ -78,10 +79,14 @@ int main(void) {
                 saveToFile(students, studentCount);
                 printf("Data saved. Exiting... Goodbye!\n");
                 break;
-            default:
+                      default:
                 printf("Invalid choice, try again.\n");
-                
         }
+
+        if (choice != 6) {
+            pauseScreen();
+        }
+
     } while (choice != 6);
 
     return 0;

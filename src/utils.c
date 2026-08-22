@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "../include/student.h"
 
 void sortStudents(struct Student students[], int count) {
@@ -109,4 +110,16 @@ void sortByRoll(struct Student students[], int count) {
             }
         }
     }
+}
+void clearScreen(void) {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void pauseScreen(void) {
+    printf("\nPress Enter to continue...");
+    getchar();
 }
