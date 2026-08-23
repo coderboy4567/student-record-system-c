@@ -54,3 +54,27 @@ int loadFromFile(struct Student students[]) {
     fclose(file);
     return count;
 }
+
+void exportToCSV(struct Student students[], int count) {
+    FILE *file = fopen(CSV_PATH, "w");
+
+    if (file == NULL) {
+        printf("Error: Could not create CSV file!\n");
+        return;
+    }
+
+    // Header row
+    fprintf(file, "Roll Number,Name,Marks,Grade\n");
+
+    for (int i = 0; i < count; i++) {
+        char grade = getGrade(students[i].marks);
+        fprintf(file, "%d,%s,%.2f,%c\n",
+                students[i].rollNumber,
+                students[i].name,
+                students[i].marks,
+                grade);
+    }
+
+    fclose(file);
+    printf("Data exported to students.csv successfully!\n");
+}

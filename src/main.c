@@ -81,6 +81,9 @@ int main(void) {
                 break;
                       default:
                 printf("Invalid choice, try again.\n");
+            case 10:
+                exportToCSV(students, studentCount);
+                break;
         }
 
         if (choice != 6) {
@@ -100,7 +103,8 @@ void displayMenu(void) {
     printf("4. Update Student\n");
     printf("5. Delete Student\n");
     printf("6. Exit\n");
-   printf("7. Sort Students\n");
+    printf("7. Sort Students\n");
     printf("8. Show Statistics\n");
     printf("9. Search Student by Name\n");
+    printf("10. Export to CSV\n");
 }

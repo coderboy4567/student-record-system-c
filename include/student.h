@@ -4,6 +4,7 @@
 #define MAX_STUDENTS 100
 #define FILE_PATH "../data/students.txt"
 #define BACKUP_PATH "../data/backup.txt"
+#define CSV_PATH "../data/students.csv"
 
 struct Student {
     int rollNumber;
@@ -23,6 +24,7 @@ int searchStudent(struct Student students[], int count, int rollNumber);
 int searchStudentByName(struct Student students[], int count, const char *name);
 void updateStudent(struct Student students[], int count);
 void deleteStudent(struct Student students[], int *count);
+void exportToCSV(struct Student students[], int count);
 
 // File operations
 void saveToFile(struct Student students[], int count);
