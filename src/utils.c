@@ -123,3 +123,19 @@ void pauseScreen(void) {
     printf("\nPress Enter to continue...");
     getchar();
 }
+
+float getValidMarks(const char *prompt) {
+    float value;
+
+    while (1) {
+        value = getValidFloat(prompt);
+
+        if (value < 0 || value > 100) {
+            printf("Invalid marks! Marks must be between 0 and 100.\n");
+        } else {
+            break;
+        }
+    }
+
+    return value;
+}

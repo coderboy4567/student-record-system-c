@@ -17,10 +17,17 @@ void addStudent(struct Student students[], int *count) {
         return;
     }
 
+    char nameBuffer[50];
+    do {
     printf("Enter Name: ");
-    scanf(" %[^\n]", newStudent.name);
+    scanf(" %[^\n]", nameBuffer);
+    if (nameBuffer[0] == '\0') {
+        printf("Name cannot be empty!\n");
+    }
+    } while (nameBuffer[0] == '\0');
+    strcpy(newStudent.name, nameBuffer);
 
-    newStudent.marks = getValidFloat("Enter Marks: ");
+   newStudent.marks = getValidMarks("Enter Marks: ");
 
     students[*count] = newStudent;
     (*count)++;
@@ -69,7 +76,7 @@ void updateStudent(struct Student students[], int count) {
     printf("Enter new Name: ");
     scanf(" %[^\n]", students[index].name);
 
-    students[index].marks = getValidFloat("Enter new Marks: ");
+    students[index].marks = getValidMarks("Enter new Marks: ");
 
     printf("Student updated successfully!\n");
 }

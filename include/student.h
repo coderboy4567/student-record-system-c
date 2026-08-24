@@ -39,5 +39,6 @@ char getGrade(float marks);
 void clearInputBuffer(void);
 int getValidInt(const char *prompt);
 float getValidFloat(const char *prompt);
+float getValidMarks(const char *prompt);
 
 #endif
