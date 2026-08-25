@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include "../include/student.h"
 
+
 int main(void) {
+    printf("===== LOGIN REQUIRED =====\n");
+    if (!login()) {
+        printf("Too many failed attempts. Exiting...\n");
+        return 0;
+    }
+
     int choice;
     struct Student students[MAX_STUDENTS];
     int studentCount = 0;

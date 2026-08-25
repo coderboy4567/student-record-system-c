@@ -139,3 +139,26 @@ float getValidMarks(const char *prompt) {
 
     return value;
 }
+
+int login(void) {
+    char username[20];
+    char password[20];
+    int attempts = 3;
+
+    while (attempts > 0) {
+        printf("Username: ");
+        scanf(" %19s", username);
+        printf("Password: ");
+        scanf(" %19s", password);
+
+        if (strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0) {
+            printf("Login successful!\n");
+            return 1;
+        } else {
+            attempts--;
+            printf("Invalid credentials! Attempts left: %d\n", attempts);
+        }
+    }
+
+    return 0;
+}
