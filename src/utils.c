@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include "../include/student.h"
 
+/**
+ * Students ko marks ke hisaab se descending order mein sort karta hai (Bubble Sort).
+ * @param students Student array
+ * @param count Total students ki sankhya
+ */
 void sortStudents(struct Student students[], int count) {
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
@@ -15,6 +20,11 @@ void sortStudents(struct Student students[], int count) {
     }
 }
 
+/**
+ * Total students, average, highest, aur lowest marks calculate karke dikhata hai.
+ * @param students Student array
+ * @param count Total students ki sankhya
+ */
 void showStatistics(struct Student students[], int count) {
     if (count == 0) {
         printf("No students to show statistics for.\n");
@@ -45,11 +55,19 @@ void showStatistics(struct Student students[], int count) {
     printf("Lowest Marks   : %.2f\n", lowest);
 }
 
+/**
+ * Galat input ke baad buffer mein bache garbage characters ko saaf karta hai.
+ */
 void clearInputBuffer(void) {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+/**
+ * Safe integer input leta hai, galat type diya to dubara poochta hai.
+ * @param prompt User ko dikhane wala message
+ * @return Valid integer value
+ */
 int getValidInt(const char *prompt) {
     int value;
     printf("%s", prompt);
@@ -62,6 +80,11 @@ int getValidInt(const char *prompt) {
     return value;
 }
 
+/**
+ * Safe float input leta hai, galat type diya to dubara poochta hai.
+ * @param prompt User ko dikhane wala message
+ * @return Valid float value
+ */
 float getValidFloat(const char *prompt) {
     float value;
     printf("%s", prompt);
@@ -74,6 +97,11 @@ float getValidFloat(const char *prompt) {
     return value;
 }
 
+/**
+ * Marks ke basis pe letter grade calculate karta hai.
+ * @param marks Student ke marks
+ * @return Grade character ('A', 'B', 'C', 'D', ya 'F')
+ */
 char getGrade(float marks) {
     if (marks >= 90) {
         return 'A';
@@ -88,6 +116,11 @@ char getGrade(float marks) {
     }
 }
 
+/**
+ * Students ko naam ke hisaab se alphabetically (A-Z) sort karta hai.
+ * @param students Student array
+ * @param count Total students ki sankhya
+ */
 void sortByName(struct Student students[], int count) {
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
@@ -100,6 +133,11 @@ void sortByName(struct Student students[], int count) {
     }
 }
 
+/**
+ * Students ko roll number ke hisaab se ascending order mein sort karta hai.
+ * @param students Student array
+ * @param count Total students ki sankhya
+ */
 void sortByRoll(struct Student students[], int count) {
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
@@ -111,6 +149,10 @@ void sortByRoll(struct Student students[], int count) {
         }
     }
 }
+
+/**
+ * Terminal screen ko saaf karta hai (Windows aur Linux dono ke liye).
+ */
 void clearScreen(void) {
 #ifdef _WIN32
     system("cls");
@@ -119,11 +161,19 @@ void clearScreen(void) {
 #endif
 }
 
+/**
+ * User ka Enter dabane ka wait karta hai, taaki result dekhne ka time mile.
+ */
 void pauseScreen(void) {
     printf("\nPress Enter to continue...");
     getchar();
 }
 
+/**
+ * Marks input leta hai aur 0-100 range check karta hai.
+ * @param prompt User ko dikhane wala message
+ * @return Valid marks (0 se 100 ke beech)
+ */
 float getValidMarks(const char *prompt) {
     float value;
 
@@ -140,6 +190,11 @@ float getValidMarks(const char *prompt) {
     return value;
 }
 
+/**
+ * Simple username/password authentication karta hai.
+ * 3 attempts deta hai, sab galat gaye to fail return karta hai.
+ * @return Login sahi hua to 1, warna 0
+ */
 int login(void) {
     char username[20];
     char password[20];

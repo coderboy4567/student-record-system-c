@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "../include/student.h"
 
-
 int main(void) {
     printf("===== LOGIN REQUIRED =====\n");
     if (!login()) {
@@ -16,11 +15,11 @@ int main(void) {
     studentCount = loadFromFile(students);
     printf("Loaded %d student(s) from file.\n", studentCount);
 
-   do {
+    do {
         clearScreen();
         displayMenu();
         choice = getValidInt("Enter your choice: ");
-        
+
         switch (choice) {
             case 1:
                 addStudent(students, &studentCount);
@@ -47,20 +46,24 @@ int main(void) {
             case 5:
                 deleteStudent(students, &studentCount);
                 break;
+            case 6:
+                saveToFile(students, studentCount);
+                printf("Data saved. Exiting... Goodbye!\n");
+                break;
             case 7: {
                 printf("Sort by: 1. Marks  2. Name  3. Roll Number\n");
                 int sortChoice = getValidInt("Enter choice: ");
                 if (sortChoice == 1) {
-                sortStudents(students, studentCount);
-                printf("Sorted by marks (descending).\n");
+                    sortStudents(students, studentCount);
+                    printf("Sorted by marks (descending).\n");
                 } else if (sortChoice == 2) {
-                sortByName(students, studentCount);
-                printf("Sorted by name (A-Z).\n");
+                    sortByName(students, studentCount);
+                    printf("Sorted by name (A-Z).\n");
                 } else if (sortChoice == 3) {
-                sortByRoll(students, studentCount);
-                printf("Sorted by roll number (ascending).\n");
+                    sortByRoll(students, studentCount);
+                    printf("Sorted by roll number (ascending).\n");
                 } else {
-                printf("Invalid sort choice!\n");
+                    printf("Invalid sort choice!\n");
                 }
                 break;
             }
@@ -73,24 +76,20 @@ int main(void) {
                 scanf(" %[^\n]", name);
                 int index = searchStudentByName(students, studentCount, name);
                 if (index == -1) {
-                printf("Student not found!\n");
-             } else {
-                printf("Found -> Roll: %d, Name: %s, Marks: %.2f\n",
-                students[index].rollNumber,
-                students[index].name,
-                students[index].marks);
-             }
+                    printf("Student not found!\n");
+                } else {
+                    printf("Found -> Roll: %d, Name: %s, Marks: %.2f\n",
+                           students[index].rollNumber,
+                           students[index].name,
+                           students[index].marks);
+                }
                 break;
             }
-            case 6:
-                saveToFile(students, studentCount);
-                printf("Data saved. Exiting... Goodbye!\n");
-                break;
-                      default:
-                printf("Invalid choice, try again.\n");
             case 10:
                 exportToCSV(students, studentCount);
                 break;
+            default:
+                printf("Invalid choice, try again.\n");
         }
 
         if (choice != 6) {
@@ -102,6 +101,9 @@ int main(void) {
     return 0;
 }
 
+/**
+ * Menu ke saare options screen pe print karta hai.
+ */
 void displayMenu(void) {
     printf("\n===== STUDENT MANAGEMENT SYSTEM =====\n");
     printf("1. Add Student\n");

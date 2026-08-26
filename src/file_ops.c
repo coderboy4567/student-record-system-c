@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include "../include/student.h"
 
+/**
+ * Student data ko file mein save karta hai, saath hi backup copy bhi banata hai.
+ * @param students Student array
+ * @param count Total students ki sankhya
+ */
 void saveToFile(struct Student students[], int count) {
     FILE *file = fopen(FILE_PATH, "w");
 
@@ -36,6 +41,11 @@ void saveToFile(struct Student students[], int count) {
     fclose(backup);
 }
 
+/**
+ * File se purana student data load karta hai program start hote hi.
+ * @param students Student array jisme data load hoga
+ * @return Load kiye gaye students ki sankhya
+ */
 int loadFromFile(struct Student students[]) {
     FILE *file = fopen(FILE_PATH, "r");
 
@@ -55,6 +65,11 @@ int loadFromFile(struct Student students[]) {
     return count;
 }
 
+/**
+ * Student data ko CSV format mein export karta hai (Excel ke liye).
+ * @param students Student array
+ * @param count Total students ki sankhya
+ */
 void exportToCSV(struct Student students[], int count) {
     FILE *file = fopen(CSV_PATH, "w");
 
