@@ -1,5 +1,4 @@
-1|adnan sami|99.99
-2|ahmad ali|89.63
-3|kasid irfan|74.56
-4|belal|56.26
-5|satayam kumar|88.25
+1|Adnan Sami|99.99
+2|rashid|88.00
+3|rehan ansari|55.00
+4|kasid irfan|58.25
