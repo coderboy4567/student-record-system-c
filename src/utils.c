@@ -3,14 +3,12 @@
 #include <stdlib.h>
 #include "../include/student.h"
 
-/**
- * Students ko marks ke hisaab se descending order mein sort karta hai (Bubble Sort).
- * @param students Student array
- * @param count Total students ki sankhya
- */
-void sortStudents(struct Student students[], int count) {
+/* Sort students by marks from highest to lowest using Bubble Sort. */
+void sortStudents(struct Student students[], int count)
+{
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
+
             if (students[j].marks < students[j + 1].marks) {
                 struct Student temp = students[j];
                 students[j] = students[j + 1];
@@ -20,27 +18,26 @@ void sortStudents(struct Student students[], int count) {
     }
 }
 
-/**
- * Total students, average, highest, aur lowest marks calculate karke dikhata hai.
- * @param students Student array
- * @param count Total students ki sankhya
- */
-void showStatistics(struct Student students[], int count) {
+/* Calculate and display student statistics. */
+void showStatistics(struct Student students[], int count)
+{
     if (count == 0) {
         printf("No students to show statistics for.\n");
         return;
     }
 
-    float total = 0;
+    float total = 0.0f;
     float highest = students[0].marks;
     float lowest = students[0].marks;
 
+    /* Calculate total, highest, and lowest marks. */
     for (int i = 0; i < count; i++) {
         total += students[i].marks;
 
         if (students[i].marks > highest) {
             highest = students[i].marks;
         }
+
         if (students[i].marks < lowest) {
             lowest = students[i].marks;
         }
@@ -55,54 +52,52 @@ void showStatistics(struct Student students[], int count) {
     printf("Lowest Marks   : %.2f\n", lowest);
 }
 
-/**
- * Galat input ke baad buffer mein bache garbage characters ko saaf karta hai.
- */
-void clearInputBuffer(void) {
+/* Remove unwanted characters left in the input buffer. */
+void clearInputBuffer(void)
+{
     int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+
+    while ((c = getchar()) != '\n' && c != EOF) {
+    }
 }
 
-/**
- * Safe integer input leta hai, galat type diya to dubara poochta hai.
- * @param prompt User ko dikhane wala message
- * @return Valid integer value
- */
-int getValidInt(const char *prompt) {
+/* Take an integer input and handle invalid input. */
+int getValidInt(const char *prompt)
+{
     int value;
+
     printf("%s", prompt);
 
     while (scanf("%d", &value) != 1) {
         printf("Invalid input! Please enter a number: ");
         clearInputBuffer();
     }
+
     clearInputBuffer();
+
     return value;
 }
 
-/**
- * Safe float input leta hai, galat type diya to dubara poochta hai.
- * @param prompt User ko dikhane wala message
- * @return Valid float value
- */
-float getValidFloat(const char *prompt) {
+/* Take a floating-point input and handle invalid input. */
+float getValidFloat(const char *prompt)
+{
     float value;
+
     printf("%s", prompt);
 
     while (scanf("%f", &value) != 1) {
         printf("Invalid input! Please enter a number: ");
         clearInputBuffer();
     }
+
     clearInputBuffer();
+
     return value;
 }
 
-/**
- * Marks ke basis pe letter grade calculate karta hai.
- * @param marks Student ke marks
- * @return Grade character ('A', 'B', 'C', 'D', ya 'F')
- */
-char getGrade(float marks) {
+/* Return the grade according to the student's marks. */
+char getGrade(float marks)
+{
     if (marks >= 90) {
         return 'A';
     } else if (marks >= 75) {
@@ -111,19 +106,17 @@ char getGrade(float marks) {
         return 'C';
     } else if (marks >= 40) {
         return 'D';
-    } else {
-        return 'F';
     }
+
+    return 'F';
 }
 
-/**
- * Students ko naam ke hisaab se alphabetically (A-Z) sort karta hai.
- * @param students Student array
- * @param count Total students ki sankhya
- */
-void sortByName(struct Student students[], int count) {
+/* Sort students by name in alphabetical order. */
+void sortByName(struct Student students[], int count)
+{
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
+
             if (strcmp(students[j].name, students[j + 1].name) > 0) {
                 struct Student temp = students[j];
                 students[j] = students[j + 1];
@@ -133,14 +126,12 @@ void sortByName(struct Student students[], int count) {
     }
 }
 
-/**
- * Students ko roll number ke hisaab se ascending order mein sort karta hai.
- * @param students Student array
- * @param count Total students ki sankhya
- */
-void sortByRoll(struct Student students[], int count) {
+/* Sort students by roll number in ascending order. */
+void sortByRoll(struct Student students[], int count)
+{
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - 1 - i; j++) {
+
             if (students[j].rollNumber > students[j + 1].rollNumber) {
                 struct Student temp = students[j];
                 students[j] = students[j + 1];
@@ -150,10 +141,9 @@ void sortByRoll(struct Student students[], int count) {
     }
 }
 
-/**
- * Terminal screen ko saaf karta hai (Windows aur Linux dono ke liye).
- */
-void clearScreen(void) {
+/* Clear the terminal screen according to the operating system. */
+void clearScreen(void)
+{
 #ifdef _WIN32
     system("cls");
 #else
@@ -161,59 +151,66 @@ void clearScreen(void) {
 #endif
 }
 
-/**
- * User ka Enter dabane ka wait karta hai, taaki result dekhne ka time mile.
- */
-void pauseScreen(void) {
+/* Wait for the user to press Enter before continuing. */
+void pauseScreen(void)
+{
     printf("\nPress Enter to continue...");
     getchar();
 }
 
-/**
- * Marks input leta hai aur 0-100 range check karta hai.
- * @param prompt User ko dikhane wala message
- * @return Valid marks (0 se 100 ke beech)
- */
-float getValidMarks(const char *prompt) {
+/* Take marks as input and make sure they are between 0 and 100. */
+float getValidMarks(const char *prompt)
+{
     float value;
 
-    while (1) {
+    do {
         value = getValidFloat(prompt);
 
         if (value < 0 || value > 100) {
-            printf("Invalid marks! Marks must be between 0 and 100.\n");
-        } else {
-            break;
+            printf(
+                "Invalid marks! Marks must be between 0 and 100.\n"
+            );
         }
-    }
+
+    } while (value < 0 || value > 100);
 
     return value;
 }
 
-/**
- * Simple username/password authentication karta hai.
- * 3 attempts deta hai, sab galat gaye to fail return karta hai.
- * @return Login sahi hua to 1, warna 0
- */
-int login(void) {
+/* Check the username and password with a maximum of 3 attempts. */
+int login(void)
+{
     char username[20];
     char password[20];
     int attempts = 3;
 
     while (attempts > 0) {
+
         printf("Username: ");
         scanf(" %19s", username);
+
         printf("Password: ");
         scanf(" %19s", password);
 
-        if (strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0) {
+        /* Check whether the entered credentials are correct. */
+        if (strcmp(username, "admin") == 0 &&
+            strcmp(password, "admin123") == 0) {
+
             printf("Login successful!\n");
+            clearInputBuffer();
+
             return 1;
-        } else {
-            attempts--;
-            printf("Invalid credentials! Attempts left: %d\n", attempts);
         }
+
+        attempts--;
+
+        printf(
+            "Invalid credentials! Attempts left: %d\n",
+            attempts
+        );
     }
+
+    clearInputBuffer();
 
     return 0;
 }

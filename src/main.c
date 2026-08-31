@@ -1,58 +1,100 @@
 #include <stdio.h>
+#include <string.h>
 #include "../include/student.h"
 
-int main(void) {
+/* Display the main menu of the Student Management System. */
+void displayMenu(void)
+{
+    printf("\n===== STUDENT MANAGEMENT SYSTEM =====\n");
+    printf("1. Add Student\n");
+    printf("2. View Students\n");
+    printf("3. Search Student\n");
+    printf("4. Update Student\n");
+    printf("5. Delete Student\n");
+    printf("6. Exit\n");
+    printf("7. Sort Students\n");
+    printf("8. Show Statistics\n");
+    printf("9. Search Student by Name\n");
+    printf("10. Export to CSV\n");
+}
+
+int main(void)
+{
+    int choice;
+    struct Student students[MAX_STUDENTS];
+    int studentCount;
+
     printf("===== LOGIN REQUIRED =====\n");
+
+    /* Ask the user to login before opening the system. */
     if (!login()) {
         printf("Too many failed attempts. Exiting...\n");
         return 0;
     }
 
-    int choice;
-    struct Student students[MAX_STUDENTS];
-    int studentCount = 0;
-
+    /* Load previously saved student data. */
     studentCount = loadFromFile(students);
     printf("Loaded %d student(s) from file.\n", studentCount);
 
+    /* Keep showing the menu until the user chooses Exit. */
     do {
         clearScreen();
         displayMenu();
+
         choice = getValidInt("Enter your choice: ");
 
         switch (choice) {
+
             case 1:
                 addStudent(students, &studentCount);
                 break;
+
             case 2:
                 viewStudents(students, studentCount);
                 break;
+
             case 3: {
                 int roll = getValidInt("Enter Roll Number to search: ");
                 int index = searchStudent(students, studentCount, roll);
+
                 if (index == -1) {
                     printf("Student not found!\n");
                 } else {
-                    printf("Found -> Roll: %d, Name: %s, Marks: %.2f\n",
-                           students[index].rollNumber,
-                           students[index].name,
-                           students[index].marks);
+                    printf(
+                        "Found -> Roll: %d, Name: %s, Marks: %.2f\n",
+                        students[index].rollNumber,
+                        students[index].name,
+                        students[index].marks
+                    );
                 }
+
                 break;
             }
+
             case 4:
                 updateStudent(students, studentCount);
                 break;
+
             case 5:
                 deleteStudent(students, &studentCount);
                 break;
+
             case 6:
+                /* Save the latest data before exiting. */
                 saveToFile(students, studentCount);
                 printf("Data saved. Exiting... Goodbye!\n");
                 break;
+
             case 7: {
-                printf("Sort by: 1. Marks  2. Name  3. Roll Number\n");
-                int sortChoice = getValidInt("Enter choice: ");
+                int sortChoice;
+
+                printf("\nSort by:\n");
+                printf("1. Marks\n");
+                printf("2. Name\n");
+                printf("3. Roll Number\n");
+
+                sortChoice = getValidInt("Enter choice: ");
+
                 if (sortChoice == 1) {
                     sortStudents(students, studentCount);
                     printf("Sorted by marks (descending).\n");
@@ -65,33 +107,52 @@ int main(void) {
                 } else {
                     printf("Invalid sort choice!\n");
                 }
+
                 break;
             }
+
             case 8:
                 showStatistics(students, studentCount);
                 break;
+
             case 9: {
                 char name[50];
+
                 printf("Enter Name to search: ");
-                scanf(" %[^\n]", name);
-                int index = searchStudentByName(students, studentCount, name);
+
+                /* Read the complete name, including spaces. */
+                fgets(name, sizeof(name), stdin);
+                name[strcspn(name, "\n")] = '\0';
+
+                int index = searchStudentByName(
+                    students,
+                    studentCount,
+                    name
+                );
+
                 if (index == -1) {
                     printf("Student not found!\n");
                 } else {
-                    printf("Found -> Roll: %d, Name: %s, Marks: %.2f\n",
-                           students[index].rollNumber,
-                           students[index].name,
-                           students[index].marks);
+                    printf(
+                        "Found -> Roll: %d, Name: %s, Marks: %.2f\n",
+                        students[index].rollNumber,
+                        students[index].name,
+                        students[index].marks
+                    );
                 }
+
                 break;
             }
+
             case 10:
                 exportToCSV(students, studentCount);
                 break;
+
             default:
                 printf("Invalid choice, try again.\n");
         }
 
+        /* Pause after each operation so the user can see the result. */
         if (choice != 6) {
             pauseScreen();
         }
@@ -99,21 +160,4 @@ int main(void) {
     } while (choice != 6);
 
     return 0;
-}
-
-/**
- * Menu ke saare options screen pe print karta hai.
- */
-void displayMenu(void) {
-    printf("\n===== STUDENT MANAGEMENT SYSTEM =====\n");
-    printf("1. Add Student\n");
-    printf("2. View Students\n");
-    printf("3. Search Student\n");
-    printf("4. Update Student\n");
-    printf("5. Delete Student\n");
-    printf("6. Exit\n");
-    printf("7. Sort Students\n");
-    printf("8. Show Statistics\n");
-    printf("9. Search Student by Name\n");
-    printf("10. Export to CSV\n");
 }

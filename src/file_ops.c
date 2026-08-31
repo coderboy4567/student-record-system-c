@@ -1,12 +1,29 @@
 #include <stdio.h>
 #include "../include/student.h"
 
-/**
- * Student data ko file mein save karta hai, saath hi backup copy bhi banata hai.
- * @param students Student array
- * @param count Total students ki sankhya
+/*
+ * Write all student records to an opened file.
+ * This avoids repeating the same file-writing code.
  */
-void saveToFile(struct Student students[], int count) {
+static void writeStudentData(
+    FILE *file,
+    struct Student students[],
+    int count
+)
+{
+    for (int i = 0; i < count; i++) {
+        fprintf(file,
+                "%d|%s|%.2f\n",
+                students[i].rollNumber,
+                students[i].name,
+                students[i].marks);
+    }
+}
+
+/* Save student data to the main file and create a backup. */
+void saveToFile(struct Student students[], int count)
+{
+    /* Open the main data file for writing. */
     FILE *file = fopen(FILE_PATH, "w");
 
     if (file == NULL) {
@@ -14,16 +31,10 @@ void saveToFile(struct Student students[], int count) {
         return;
     }
 
-    for (int i = 0; i < count; i++) {
-        fprintf(file, "%d|%s|%.2f\n",
-                students[i].rollNumber,
-                students[i].name,
-                students[i].marks);
-    }
-
+    writeStudentData(file, students, count);
     fclose(file);
 
-    // Backup copy bhi bana rahe hain
+    /* Create a backup copy of the student data. */
     FILE *backup = fopen(BACKUP_PATH, "w");
 
     if (backup == NULL) {
@@ -31,46 +42,44 @@ void saveToFile(struct Student students[], int count) {
         return;
     }
 
-    for (int i = 0; i < count; i++) {
-        fprintf(backup, "%d|%s|%.2f\n",
-                students[i].rollNumber,
-                students[i].name,
-                students[i].marks);
-    }
-
+    writeStudentData(backup, students, count);
     fclose(backup);
 }
 
-/**
- * File se purana student data load karta hai program start hote hi.
- * @param students Student array jisme data load hoga
- * @return Load kiye gaye students ki sankhya
- */
-int loadFromFile(struct Student students[]) {
+/* Load previously saved student data from the file. */
+int loadFromFile(struct Student students[])
+{
     FILE *file = fopen(FILE_PATH, "r");
 
+    /* Start with an empty list if the file does not exist. */
     if (file == NULL) {
         return 0;
     }
 
     int count = 0;
-    while (fscanf(file, "%d|%49[^|]|%f\n",
-                   &students[count].rollNumber,
-                   students[count].name,
-                   &students[count].marks) == 3) {
+
+    /*
+     * Read student records until the file ends
+     * or the maximum limit is reached.
+     */
+    while (count < MAX_STUDENTS &&
+           fscanf(file,
+                  "%d|%49[^|]|%f",
+                  &students[count].rollNumber,
+                  students[count].name,
+                  &students[count].marks) == 3) {
+
         count++;
     }
 
     fclose(file);
+
     return count;
 }
 
-/**
- * Student data ko CSV format mein export karta hai (Excel ke liye).
- * @param students Student array
- * @param count Total students ki sankhya
- */
-void exportToCSV(struct Student students[], int count) {
+/* Export student data to a CSV file. */
+void exportToCSV(struct Student students[], int count)
+{
     FILE *file = fopen(CSV_PATH, "w");
 
     if (file == NULL) {
@@ -78,18 +87,20 @@ void exportToCSV(struct Student students[], int count) {
         return;
     }
 
-    // Header row
+    /* Write the CSV column names first. */
     fprintf(file, "Roll Number,Name,Marks,Grade\n");
 
+    /* Write each student's data as a CSV row. */
     for (int i = 0; i < count; i++) {
-        char grade = getGrade(students[i].marks);
-        fprintf(file, "%d,%s,%.2f,%c\n",
+        fprintf(file,
+                "%d,%s,%.2f,%c\n",
                 students[i].rollNumber,
                 students[i].name,
                 students[i].marks,
-                grade);
+                getGrade(students[i].marks));
     }
 
     fclose(file);
+
     printf("Data exported to students.csv successfully!\n");
 }
