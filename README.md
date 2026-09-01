@@ -14,7 +14,7 @@ A console-based Student Management System built in C, following professional sof
 
 ## Folder Structure
 
-\`\`\`
+```
 Student-Management-System/
 ├── include/
 │   └── student.h        # Struct definition and function declarations
@@ -31,7 +31,7 @@ Student-Management-System/
 ├── screenshots/
 ├── README.md
 └── LICENSE
-\`\`\`
+```
 
 ## Concepts Used
 - Structures and arrays of structures
