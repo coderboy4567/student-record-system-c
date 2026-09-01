@@ -13,22 +13,25 @@ A console-based Student Management System built in C, following professional sof
 - Input validation and error handling (type checks, range checks, empty checks)
 
 ## Folder Structure
+
+\`\`\`
 Student-Management-System/
 ├── include/
-│ └── student.h # Struct definition and function declarations
+│   └── student.h        # Struct definition and function declarations
 ├── src/
-│ ├── main.c # Program entry point and menu logic
-│ ├── student_ops.c # Add, View, Search, Update, Delete
-│ ├── file_ops.c # Save, Load, Export to CSV
-│ ├── utils.c # Sorting, Statistics, Validation, Login
-│ └── Makefile # Build automation
+│   ├── main.c            # Program entry point and menu logic
+│   ├── student_ops.c     # Add, View, Search, Update, Delete
+│   ├── file_ops.c        # Save, Load, Export to CSV
+│   ├── utils.c           # Sorting, Statistics, Validation, Login
+│   └── Makefile           # Build automation
 ├── data/
-│ ├── students.txt # Main data storage
-│ ├── backup.txt # Backup copy
-│ └── students.csv # CSV export
+│   ├── students.txt       # Main data storage
+│   ├── backup.txt         # Backup copy
+│   └── students.csv       # CSV export
 ├── screenshots/
 ├── README.md
 └── LICENSE
+\`\`\`
 
 ## Concepts Used
 - Structures and arrays of structures
@@ -42,7 +45,7 @@ Student-Management-System/
 ## Screenshots
 ![Home](screenshots/home.png)
 ![Add Student](screenshots/add_student.png)
-![View Students](screenshots/view_students.png)
+![View Students](screenshots/statistics.png)
 ![Statistics](screenshots/statistics.png)
 
 ## How to Compile
